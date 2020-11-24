@@ -52,6 +52,8 @@ public:
 
 	void checkGameOver();
 
+	void Pause();
+
 	bool gameIsRunning;
 
 	int nrRestart;

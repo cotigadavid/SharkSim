@@ -53,6 +53,8 @@ public:
 
 	void MoveUp(float Value);
 
+	void Pause();
+
 	void Attack();
 	void Attack2();
 	bool isAttacking = false;

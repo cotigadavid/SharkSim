@@ -110,6 +110,8 @@ int ASharkSimGameModeBase::StartGame()
 	gameIsRunning = 1;
 	nrRestart++;
 	score = 0;
+	sec = 0;
+	min = 0;
 
 	if (LevelToLoad != "")
 	{
@@ -118,6 +120,8 @@ int ASharkSimGameModeBase::StartGame()
 		//UGameplayStatics::OpenLevel(GetWorld(), FName("D:/UnrealProjects/SharkSim/Content/Level1/Level1.umap"), true);
 		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("Loaded"));
 	}
+
+	GetWorld()->GetFirstPlayerController()->GetPawn()->SetActorLocation(FVector(39000, 600, 11000));
 
 	CurrentWidget->RemoveFromParent();
 	if (LoadingScreenHUD != NULL) {
@@ -147,13 +151,13 @@ void ASharkSimGameModeBase::StarGameForReal()
 	}
 
 	//if (nrRestart == 1)
-	for (int i = 0; i < 75; ++i)
+	for (int i = 0; i < 60; ++i)
 		SpawnFishAtRandomLocation(0);
-	for (int i = 0; i < 75; ++i)
+	for (int i = 0; i < 60; ++i)
 		SpawnFishAtRandomLocation(1);
-	for (int i = 0; i < 50; ++i)
+	for (int i = 0; i < 40; ++i)
 		SpawnFishAtRandomLocation(2);
-	for (int i = 0; i < 25; ++i)
+	for (int i = 0; i < 20; ++i)
 		SpawnFishAtRandomLocation(3);
 
 	//ASharkCharacter* Shark = Cast<ASharkCharacter>(GetWorld()->GetFirstPlayerController());
@@ -161,6 +165,7 @@ void ASharkSimGameModeBase::StarGameForReal()
 	if (Player1) {
 		Player1->StartedGame = true;
 		Player1->startAudio();
+		Player1->healthMult = 1;
 		//Player1->UpdateCurrentHealth(100 - Player1->GetCurrentHealth());
 		//Player1->UpdateCurrentStamina(100 - Player1->GetCurrentStamina());
 	}
@@ -244,6 +249,16 @@ void ASharkSimGameModeBase::checkGameOver()
 			GetWorldTimerManager().SetTimer(anotherHandle3, this, &ASharkSimGameModeBase::StopGame, 1.0f, false);
 		}
 	}
+}
+
+void ASharkSimGameModeBase::Pause()
+{
+	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("Pauza"));
+
+	//if (!IsPaused())
+		UGameplayStatics::SetGamePaused(this, true);
+	//else
+		//UGameplayStatics::SetGamePaused(this, false);
 }
 
 void ASharkSimGameModeBase::incrementTime()

@@ -160,6 +160,7 @@ void ASharkCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComp
 	//PlayerInputComponent->BindAction("Boost", IE_Pressed, this, &ACharacter::Jump);
 	PlayerInputComponent->BindAction("Boost", IE_Released, this, &ASharkCharacter::Boost);
 	PlayerInputComponent->BindAction("Attack", IE_Pressed, this, &ASharkCharacter::Attack2);
+	PlayerInputComponent->BindAction("Pause", IE_Released, this, &ASharkCharacter::Pause);
 
 	PlayerInputComponent->BindAxis("MoveForward", this, &ASharkCharacter::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &ASharkCharacter::MoveRight);
@@ -223,6 +224,14 @@ void ASharkCharacter::MoveUp(float Value)
 		AddMovementInput(Direction, Value / 1.0f);
 		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, FString::Printf(TEXT("%f %f %f \n"), Direction.X, Direction.Y, Direction.Z));
 	}
+}
+
+void ASharkCharacter::Pause()
+{
+	ASharkSimGameModeBase* GameMode = Cast<ASharkSimGameModeBase>(GetWorld()->GetAuthGameMode());
+
+	if (GameMode && GameMode->gameIsRunning)
+		GameMode->Pause();
 }
 
 void ASharkCharacter::Attack()
@@ -380,7 +389,7 @@ void ASharkCharacter::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AAc
 		
 		GameMode->SpawnBlood(OverlappedCrab->GetActorLocation());
 		if (GameMode) {
-			GameMode->increaseScore(100);
+			GameMode->increaseScore(50);
 		}
 
 		UpdateCurrentHealth(5);
@@ -398,10 +407,10 @@ void ASharkCharacter::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AAc
 
 		GameMode->SpawnBlood(OverlappedTurtle->GetActorLocation());
 		if (GameMode) {
-			GameMode->increaseScore(100);
+			GameMode->increaseScore(150);
 		}
 
-		UpdateCurrentHealth(10);
+		UpdateCurrentHealth(15);
 	}
 
 	int n = FMath::RandRange(0, 100);

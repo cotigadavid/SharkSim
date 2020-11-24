@@ -62,6 +62,24 @@ void AFish2AIController::Tick(float DeltaSeconds)
 	if (GameMode->gameIsRunning && !GetBrainComponent()->IsActive()) {
 		GetBrainComponent()->RestartLogic();
 	}*/
+
+	FVector Location = GetPawn()->GetActorLocation();
+
+	if (Location.Z > 22391) {
+		GetPawn()->Destroy();
+
+
+		int n = FMath::RandRange(0, 100);
+
+		if (n < 33)
+			GameMode->SpawnFishAtRandomLocation(0);
+		else if (n < 66)
+			GameMode->SpawnFishAtRandomLocation(1);
+		else if (n < 88)
+			GameMode->SpawnFishAtRandomLocation(2);
+		else
+			GameMode->SpawnFishAtRandomLocation(3);
+	}
 }
 
 FRotator AFish2AIController::GetControlRotation() const
