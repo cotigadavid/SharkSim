@@ -13,9 +13,6 @@
 #include "TurtleCharacter.h"
 #include "Fish2_1Character.h"
 
-//#include "Engine/Plugins/FX/Niagara/Source/Niagara/Public/NiagaraComponent.h"
-// Engine / Plugins/FX/Niagara/Source/Niagara/Public/NiagaraFunctionLibrary.h
-
 ASharkSimGameModeBase::ASharkSimGameModeBase()
 {
 	gameIsRunning = 0;
@@ -81,11 +78,11 @@ void ASharkSimGameModeBase::BeginPlay()
 	GetWorld()->GetFirstPlayerController()->SetInputMode(FInputModeUIOnly());
 	GetWorld()->GetFirstPlayerController()->bShowMouseCursor = true;
 
-	//FTimerHandle otherHandle;
-	//GetWorldTimerManager().SetTimer(otherHandle, this, &ASharkSimGameModeBase::StartGame, 3.1f, false);
-
 	FTimerHandle otherHandle2;
 	GetWorldTimerManager().SetTimer(otherHandle2, this, &ASharkSimGameModeBase::checkGameOver, 0.1f, true);
+
+	FTimerHandle handle;
+	GetWorldTimerManager().SetTimer(handle, this, &ASharkSimGameModeBase::incrementTime, 1.0f, true);
 }
 
 
@@ -98,11 +95,7 @@ void ASharkSimGameModeBase::Tick(float DeltaTime)
 
 void ASharkSimGameModeBase::SpawnBlood(FVector Location)
 {
-	//ParticleSystem = Cast<UParticleSystem>((BloodToSpawn));
-
 	UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), BloodToSpawn, Location, FRotator::ZeroRotator, true);
-
-	//UNiagaraFunctionLibrabry::Spawn
 }
 
 int ASharkSimGameModeBase::StartGame()
@@ -151,26 +144,22 @@ void ASharkSimGameModeBase::StarGameForReal()
 	}
 
 	//if (nrRestart == 1)
-	for (int i = 0; i < 60; ++i)
+	for (int i = 0; i < 52; ++i)
 		SpawnFishAtRandomLocation(0);
-	for (int i = 0; i < 60; ++i)
+	for (int i = 0; i < 52; ++i)
 		SpawnFishAtRandomLocation(1);
-	for (int i = 0; i < 40; ++i)
+	for (int i = 0; i < 27; ++i)
 		SpawnFishAtRandomLocation(2);
-	for (int i = 0; i < 20; ++i)
+	for (int i = 0; i < 4; ++i)
 		SpawnFishAtRandomLocation(3);
 
-	//ASharkCharacter* Shark = Cast<ASharkCharacter>(GetWorld()->GetFirstPlayerController());
 	ASharkCharacter* Player1 = Cast<ASharkCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
 	if (Player1) {
 		Player1->StartedGame = true;
 		Player1->startAudio();
 		Player1->healthMult = 1;
-		//Player1->UpdateCurrentHealth(100 - Player1->GetCurrentHealth());
-		//Player1->UpdateCurrentStamina(100 - Player1->GetCurrentStamina());
 	}
-	FTimerHandle handle;
-	GetWorldTimerManager().SetTimer(handle, this, &ASharkSimGameModeBase::incrementTime, 1.0f, true);
+	
 }
 
 void ASharkSimGameModeBase::increaseScore(int value)
@@ -236,7 +225,6 @@ void ASharkSimGameModeBase::StopGame()
 		//UGameplayStatics::UnloadStreamLevel(this, LevelToLoad, LatentInfo, 0);
 		//UnloadStreamLevel(const UObject * WorldContextObject, FName LevelName, FLatentActionInfo LatentInfo, bool bShouldBlockOnUnload);
 	}
-	//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("GATA"));
 }
 
 void ASharkSimGameModeBase::checkGameOver()

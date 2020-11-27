@@ -187,10 +187,7 @@ void ASharkCharacter::MoveForward(float Value)
 
 		// get forward vector
 		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
-		//const FVector Direction(0, 0, 0);
 		AddMovementInput(Direction, Value / mult);
-		//GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Green, "%f %f %f\n", Direction.X, Direction.Y, Direction.Z);
-		//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, FString::Printf(TEXT("%f %f %f \n"), Direction.X, Direction.Y, Direction.Z));
 	}
 }
 
@@ -415,11 +412,11 @@ void ASharkCharacter::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AAc
 
 	int n = FMath::RandRange(0, 100);
 
-	if (n < 33)
+	if (n < 38)
 		GameMode->SpawnFishAtRandomLocation(0);
-	else if (n < 66)
+	else if (n < 76)
 		GameMode->SpawnFishAtRandomLocation(1);
-	else if (n < 88)
+	else if (n < 95)
 		GameMode->SpawnFishAtRandomLocation(2);
 	else
 		GameMode->SpawnFishAtRandomLocation(3);

@@ -49,22 +49,7 @@ void AFish2Character::Tick(float DeltaTime)
 
 void AFish2Character::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	/*ASharkCharacter* OverlappingShark = Cast<ASharkCharacter>(OtherActor);
-
-	if (OtherComp == OverlappingShark->SphereComponent) {
-		//OverlappingShark->Attack();
-		//Destroy();
-	}*/
-
-	/*UStaticMesh* island = Cast<UStaticMesh>(OtherActor);
-
-	if (island) {
-		AFish2AIController* Controller = Cast<AFish2AIController>(GetController());
-
-		Controller->GetBrainComponent()->RestartLogic();
-
-	}*/
-
+	
 }
 
 bool AFish2Character::setCanSeePlayer(bool a)
